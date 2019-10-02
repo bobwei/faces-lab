@@ -1,0 +1,10 @@
+node_modules/
+.env
+lib/
+*.dat
+logs/
+ignored-scripts/
+tmp/
+dist/
+.next/
+out/

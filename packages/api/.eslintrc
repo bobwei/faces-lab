@@ -1,0 +1,18 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [],
+  "extends": ["airbnb", "prettier"],
+  "env": {
+    "es6": true,
+    "jest": true,
+    "node": true
+  },
+  "rules": {
+    "arrow-body-style": 0,
+    "global-require": 0,
+    "no-underscore-dangle": 0,
+    "react/jsx-filename-extension": 0,
+    "no-use-before-define": 0,
+    "no-console": 0
+  }
+}
