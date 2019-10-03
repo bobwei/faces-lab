@@ -5,9 +5,8 @@ import * as R from 'ramda';
 
 import styles, {getPhotoStyle} from './styles';
 
-const Comp = () => {
+const Comp = ({numColumns}) => {
   const [photos] = usePhotos();
-  const numColumns = 4;
   return (
     <>
       <View style={styles.container}>
@@ -26,6 +25,10 @@ const Comp = () => {
       </View>
     </>
   );
+};
+
+Comp.defaultProps = {
+  numColumns: 4,
 };
 
 Comp.navigationOptions = () => {
