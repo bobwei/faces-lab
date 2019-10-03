@@ -1,11 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {View, FlatList, Image} from 'react-native';
-import CameraRoll from '@react-native-community/cameraroll';
+import React, {useState} from 'react';
+import {View, FlatList, Image, TouchableOpacity} from 'react-native';
 import * as R from 'ramda';
+import PhotoView from '@merryjs/photo-viewer';
 
 import styles, {getPhotoStyle} from './styles';
+import usePhotos from './usePhotos';
 
 const Comp = ({numColumns}) => {
+  const [selected, setSelected] = useState(null);
   const [photos] = usePhotos();
   return (
     <>
@@ -14,16 +16,27 @@ const Comp = ({numColumns}) => {
           data={photos}
           numColumns={numColumns}
           contentContainerStyle={styles.photoContainer}
-          renderItem={({item}) => {
+          renderItem={({item, index}) => {
             return (
-              <View style={styles.photoContainer}>
-                <Image style={getPhotoStyle(numColumns)} source={item.image} />
-              </View>
+              <TouchableOpacity onPress={() => setSelected(index)}>
+                <View style={styles.photoContainer}>
+                  <Image
+                    style={getPhotoStyle(numColumns)}
+                    source={item.source}
+                  />
+                </View>
+              </TouchableOpacity>
             );
           }}
           keyExtractor={R.path(['image', 'uri'])}
         />
       </View>
+      <PhotoView
+        visible={selected !== null}
+        data={photos}
+        initial={selected !== null ? selected : 0}
+        onDismiss={() => setSelected(null)}
+      />
     </>
   );
 };
@@ -39,18 +52,3 @@ Comp.navigationOptions = () => {
 };
 
 export default Comp;
-
-function usePhotos() {
-  const [photos, setPhotos] = useState([]);
-  useEffect(() => {
-    CameraRoll.getPhotos({first: 10})
-      .then(
-        R.pipe(
-          R.prop('edges'),
-          R.map(R.prop('node')),
-        ),
-      )
-      .then(data => setPhotos(data));
-  }, []);
-  return [photos, setPhotos];
-}

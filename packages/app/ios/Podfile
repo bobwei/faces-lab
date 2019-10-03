@@ -36,6 +36,8 @@ target 'app' do
 
   pod 'react-native-cameraroll', :path => '../node_modules/@react-native-community/cameraroll'
 
+  pod 'MerryPhotoViewer', :path => '../node_modules/@merryjs/photo-viewer'
+
   target 'appTests' do
     inherit! :search_paths
     # Pods for testing
