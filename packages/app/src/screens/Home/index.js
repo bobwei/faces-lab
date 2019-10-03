@@ -3,7 +3,7 @@ import {View} from 'react-native';
 
 import styles from './styles';
 
-const App = () => {
+const Comp = () => {
   return (
     <>
       <View style={styles.container} />
@@ -11,4 +11,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Comp;
