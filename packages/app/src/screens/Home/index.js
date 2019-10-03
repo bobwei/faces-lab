@@ -13,6 +13,7 @@ const Comp = ({numColumns}) => {
         <FlatList
           data={photos}
           numColumns={numColumns}
+          contentContainerStyle={styles.photoContainer}
           renderItem={({item}) => {
             return (
               <View style={styles.photoContainer}>
