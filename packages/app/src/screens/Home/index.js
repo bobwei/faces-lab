@@ -11,4 +11,10 @@ const Comp = () => {
   );
 };
 
+Comp.navigationOptions = () => {
+  return {
+    title: 'All Photos',
+  };
+};
+
 export default Comp;
