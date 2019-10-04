@@ -1,6 +1,6 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const photoPadding = 2;
 
 const styles = StyleSheet.create({
@@ -10,9 +10,12 @@ const styles = StyleSheet.create({
   photoContainer: {
     padding: photoPadding,
   },
+  row: {
+    flexDirection: 'row',
+  },
 });
 
-export const getPhotoStyle = numColumns => {
+export const getPhotoStyle = (numColumns) => {
   const photoWidth = (width - photoPadding * 2) / numColumns - photoPadding * 2;
   return {
     width: photoWidth,

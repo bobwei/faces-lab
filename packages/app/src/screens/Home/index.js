@@ -1,34 +1,24 @@
-import React, {useState} from 'react';
-import {View, FlatList, Image, TouchableOpacity} from 'react-native';
-import * as R from 'ramda';
+import React, { useState } from 'react';
+import { View, Image, TouchableOpacity, VirtualizedList } from 'react-native';
 import PhotoView from '@merryjs/photo-viewer';
 
-import styles, {getPhotoStyle} from './styles';
+import styles, { getPhotoStyle } from './styles';
 import usePhotos from './usePhotos';
 
-const Comp = ({numColumns}) => {
+const Comp = ({ numColumns }) => {
   const [selected, setSelected] = useState(null);
   const [photos, , loadData] = usePhotos();
   return (
     <>
       <View style={styles.container}>
-        <FlatList
+        <VirtualizedList
           data={photos}
+          getItemCount={(data) => Math.ceil(data.length / numColumns)}
+          getItem={getItem(numColumns)}
           numColumns={numColumns}
           contentContainerStyle={styles.photoContainer}
-          renderItem={({item, index}) => {
-            return (
-              <TouchableOpacity onPress={() => setSelected(index)}>
-                <View style={styles.photoContainer}>
-                  <Image
-                    style={getPhotoStyle(numColumns)}
-                    source={item.source}
-                  />
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-          keyExtractor={R.path(['image', 'uri'])}
+          renderItem={renderItem({ setSelected, numColumns })}
+          keyExtractor={(item, i) => i}
           onEndReached={() => loadData()}
         />
       </View>
@@ -53,3 +43,27 @@ Comp.navigationOptions = () => {
 };
 
 export default Comp;
+
+function getItem(numColumns) {
+  return (data, index) => {
+    return data.slice(numColumns * index, numColumns * (index + 1));
+  };
+}
+
+function renderItem({ setSelected, numColumns }) {
+  return ({ item, index }) => {
+    return (
+      <View style={styles.row}>
+        {item.map(({ source }, i) => {
+          return (
+            <TouchableOpacity onPress={() => setSelected(numColumns * index + i)}>
+              <View style={styles.photoContainer}>
+                <Image style={getPhotoStyle(numColumns)} source={source} />
+              </View>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    );
+  };
+}
