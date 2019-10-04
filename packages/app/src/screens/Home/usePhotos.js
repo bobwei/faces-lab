@@ -17,12 +17,24 @@ const transform = R.pipe(
 
 function usePhotos() {
   const [photos, setPhotos] = useState([]);
+  const [after, setAfter] = useState();
+
   useEffect(() => {
-    CameraRoll.getPhotos({first: 10})
-      .then(transform)
-      .then(data => setPhotos(data));
+    loadData();
   }, []);
-  return [photos, setPhotos];
+
+  function loadData(props = {first: 10, after, assetType: 'Photos'}) {
+    return CameraRoll.getPhotos(props)
+      .then(result => {
+        const data = transform(result);
+        setPhotos(val => (!props.after ? data : [...val, ...data]));
+        const endCursor = R.path(['page_info', 'end_cursor'])(result);
+        setAfter(endCursor);
+      })
+      .catch(console.log);
+  }
+
+  return [photos, setPhotos, loadData];
 }
 
 export default usePhotos;

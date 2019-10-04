@@ -8,7 +8,7 @@ import usePhotos from './usePhotos';
 
 const Comp = ({numColumns}) => {
   const [selected, setSelected] = useState(null);
-  const [photos] = usePhotos();
+  const [photos, , loadData] = usePhotos();
   return (
     <>
       <View style={styles.container}>
@@ -29,6 +29,7 @@ const Comp = ({numColumns}) => {
             );
           }}
           keyExtractor={R.path(['image', 'uri'])}
+          onEndReached={() => loadData()}
         />
       </View>
       <PhotoView
