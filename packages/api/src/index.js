@@ -17,7 +17,7 @@ const fn = async () => {
 export default fn;
 
 if (require.main === module) {
-  const { PORT = 8081 } = process.env;
+  const { PORT = 8082 } = process.env;
   (async () => {
     const app = await fn();
     app.listen(PORT, () => {
