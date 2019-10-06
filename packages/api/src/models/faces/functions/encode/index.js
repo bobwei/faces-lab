@@ -1,9 +1,7 @@
 import * as R from 'ramda';
 
 const fn = R.evolve({
-  faceDescriptor: {
-    descriptor: (data) => Array.from(data),
-  },
+  descriptor: (val) => Array.from(val),
 });
 
 export default fn;
