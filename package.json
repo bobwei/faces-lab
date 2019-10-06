@@ -3,18 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "nodemon src/index.js --exec babel-node",
-    "start": "node lib/index.js",
-    "build": "yarn clean && babel src --out-dir lib --copy-files",
-    "test": "jest",
-    "clean": "rimraf lib"
+    "heroku-postbuild": "lerna bootstrap --scope @project/api && lerna run --scope @project/api build"
   },
   "main": "lib/index.js",
   "author": "",
   "license": "MIT",
   "engines": {
-    "node": ">=8.10.0",
-    "yarn": "^1.12.3"
+    "node": ">=10.16.3",
+    "npm": "^6.9.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.2",
