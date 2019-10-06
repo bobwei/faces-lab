@@ -179,6 +179,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-image-resizer')
+    implementation project(':react-native-fs')
     implementation project(':@merryjs_photo-viewer')
     implementation project(':@react-native-community_cameraroll')
     implementation fileTree(dir: "libs", include: ["*.jar"])
