@@ -2,16 +2,17 @@ import * as R from 'ramda';
 
 import encode from '../functions/encode';
 
-const fn = async ({ canvas, faceapi }, req, res) => {
+const fn = ({ canvas, faceapi }, req, res) => {
   const { data } = req.body;
   const img = new canvas.Image();
   img.src = data;
-  const faceDescriptors = await faceapi
+  return faceapi
     .detectAllFaces(img)
     .withFaceLandmarks()
-    .withFaceDescriptors();
-  const results = faceDescriptors.map(encode);
-  res.json({ results });
+    .withFaceDescriptors()
+    .then((arr) => arr.map(encode))
+    .then((results) => res.json({ results }))
+    .catch((error) => res.json({ error }));
 };
 
 export default R.curry(fn);
