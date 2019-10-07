@@ -41,6 +41,8 @@ target 'app' do
 
   pod 'react-native-image-resizer', :path => '../node_modules/react-native-image-resizer'
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
   target 'appTests' do
     inherit! :search_paths
     # Pods for testing
