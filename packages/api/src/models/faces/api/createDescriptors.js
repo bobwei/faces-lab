@@ -10,7 +10,14 @@ const fn = ({ canvas, faceapi }, req, res) => {
     .detectAllFaces(img)
     .withFaceLandmarks()
     .withFaceDescriptors()
-    .then((arr) => arr.map(encode))
+    .then(
+      R.map(
+        R.pipe(
+          encode,
+          R.omit(['landmarks', 'unshiftedLandmarks', 'alignedRect']),
+        ),
+      ),
+    )
     .then((results) => res.json({ results }))
     .catch((error) => res.json({ error }));
 };
