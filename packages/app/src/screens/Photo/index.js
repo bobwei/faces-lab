@@ -5,11 +5,9 @@ import { withMappedNavigationParams } from 'react-navigation-props-mapper';
 import styles from './styles';
 import useFaceDescriptors from '../../hooks/useFaceDescriptors';
 
-const Comp = ({ photo }) => {
+const Comp = ({ photo, navigation }) => {
   const [, run] = useFaceDescriptors();
-  useEffect(() => {
-    run(photo);
-  }, []);
+  useEffect(componentDidMount({ navigation, run, photo }), []);
   return (
     <>
       <View style={styles.container}>
@@ -23,10 +21,19 @@ const Comp = ({ photo }) => {
   );
 };
 
-Comp.navigationOptions = () => {
+Comp.navigationOptions = ({ isLoading }) => {
   return {
-    title: 'Photo',
+    title: !isLoading ? 'Photo' : 'Loading...',
   };
 };
 
 export default withMappedNavigationParams()(Comp);
+
+function componentDidMount({ navigation, run, photo }) {
+  return () => {
+    navigation.setParams({ isLoading: true });
+    run(photo).then(() => {
+      navigation.setParams({ isLoading: false });
+    });
+  };
+}
