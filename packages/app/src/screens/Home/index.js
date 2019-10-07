@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Image, TouchableOpacity, VirtualizedList } from 'react-native';
 import PhotoView from '@merryjs/photo-viewer';
-import axios from 'axios';
-import ImageResizer from 'react-native-image-resizer';
-import fs from 'react-native-fs';
 
 import styles, { getPhotoStyle } from './styles';
 import usePhotos from './usePhotos';
-import baseUrl from '../../api/config';
+import useFaceDescriptors from './useFaceDescriptors';
 
 const Comp = ({ numColumns }) => {
   const [selected, setSelected] = useState(null);
   const [photos, , loadData] = usePhotos();
-  useDescriptor({ photos, selected });
+  useFaceDescriptors({ photos, selected });
   return (
     <>
       <View style={styles.container}>
@@ -72,23 +69,4 @@ function renderItem({ setSelected, numColumns }) {
       </View>
     );
   };
-}
-
-function useDescriptor({ photos, selected }) {
-  useEffect(() => {
-    if (selected === null) {
-      return;
-    }
-    ImageResizer.createResizedImage(photos[selected].source.uri, 600, 600, 'JPEG', 80)
-      .then(async ({ uri }) => {
-        return 'data:image/jpeg;base64,' + (await fs.readFile(uri, 'base64'));
-      })
-      .then((data) => {
-        // prettier-ignore
-        return axios
-          .post(`${baseUrl}/faces/descriptor`, { data })
-          .then((res) => res.data);
-      })
-      .catch(console.log);
-  }, [selected]);
 }
