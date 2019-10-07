@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Dimensions } from 'react-native';
+import { Header } from 'react-navigation-stack';
 import ImageResizer from 'react-native-image-resizer';
 import fs from 'react-native-fs';
 import axios from 'axios';
@@ -6,8 +8,8 @@ import * as R from 'ramda';
 
 import baseUrl from '../api/config';
 
-export const maxWidth = 600;
-const defaultResizeConfig = [maxWidth, maxWidth, 'JPEG', 80];
+const { width: maxWidth, height: maxHeight } = Dimensions.get('screen');
+const defaultResizeConfig = [maxWidth, maxHeight, 'JPEG', 80];
 
 function useFaceDescriptors() {
   const [descriptors, setDescriptors] = useState([]);
@@ -22,7 +24,11 @@ function useFaceDescriptors() {
           .post(`${baseUrl}/faces/descriptor`, { data })
           .then((res) => res.data);
       })
-      .then(R.evolve({ results: R.map(withRatio({ photo })) }))
+      .then(
+        R.evolve({
+          results: R.map(withDetection),
+        }),
+      )
       .then((data) => setDescriptors(data.results))
       .catch(console.log);
   }
@@ -31,11 +37,16 @@ function useFaceDescriptors() {
 
 export default useFaceDescriptors;
 
-function withRatio({ photo }) {
-  return (props) => {
-    return {
-      ...props,
-      ratio: props.detection._imageDims._width / photo.source.width,
-    };
+function withDetection({ detection, ...props }) {
+  const offset = (maxHeight - detection._imageDims._height - Header.HEIGHT) / 2;
+  const { _x: left, _y: top, _width: width, _height: height } = detection._box;
+  return {
+    ...props,
+    detection: {
+      top: top + offset,
+      left,
+      width,
+      height,
+    },
   };
 }

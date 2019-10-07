@@ -4,6 +4,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  photo: {},
+  detection: {
+    position: 'absolute',
+    borderColor: 'white',
+    borderWidth: 3,
+    borderRadius: 5,
+  },
 });
 export default styles;

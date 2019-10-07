@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react';
-import { View, Image } from 'react-native';
+import { View, ImageBackground } from 'react-native';
 import { withMappedNavigationParams } from 'react-navigation-props-mapper';
 
 import styles from './styles';
 import useFaceDescriptors from '../../hooks/useFaceDescriptors';
 
 const Comp = ({ photo, navigation }) => {
-  const [, run] = useFaceDescriptors();
+  const [descriptors, run] = useFaceDescriptors();
   useEffect(componentDidMount({ navigation, run, photo }), []);
   return (
     <>
       <View style={styles.container}>
-        <Image
-          style={[styles.container, styles.photo]}
-          resizeMode="contain"
-          source={photo.source}
-        />
+        <ImageBackground style={styles.container} resizeMode="contain" source={photo.source}>
+          {descriptors.map(({ detection }) => (
+            <View style={[styles.photo, styles.detection, detection]} />
+          ))}
+        </ImageBackground>
       </View>
     </>
   );
