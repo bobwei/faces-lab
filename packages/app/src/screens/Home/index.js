@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Image, TouchableOpacity, VirtualizedList } from 'react-native';
-import PhotoView from '@merryjs/photo-viewer';
 
 import styles, { getPhotoStyle } from './styles';
 import usePhotos from './usePhotos';
-import useFaceDescriptors from './useFaceDescriptors';
 
 const Comp = ({ numColumns, navigation }) => {
-  const [selected, setSelected] = useState(null);
   const [photos, , loadData] = usePhotos();
-  useFaceDescriptors({ photos, selected });
   return (
     <>
       <View style={styles.container}>
@@ -19,18 +15,11 @@ const Comp = ({ numColumns, navigation }) => {
           getItem={getItem(numColumns)}
           numColumns={numColumns}
           contentContainerStyle={styles.photoContainer}
-          renderItem={renderItem({ setSelected, numColumns, navigation })}
+          renderItem={renderItem({ numColumns, navigation })}
           keyExtractor={(item, i) => i}
           onEndReached={() => loadData()}
         />
       </View>
-      <PhotoView
-        visible={selected !== null}
-        data={photos}
-        initial={selected !== null ? selected : 0}
-        onDismiss={() => setSelected(null)}
-        onChange={({ index }) => setSelected(index)}
-      />
     </>
   );
 };

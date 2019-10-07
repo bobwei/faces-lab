@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Image } from 'react-native';
 import { withMappedNavigationParams } from 'react-navigation-props-mapper';
 
 import styles from './styles';
+import useFaceDescriptors from '../../hooks/useFaceDescriptors';
 
 const Comp = ({ photo }) => {
+  const [, run] = useFaceDescriptors();
+  useEffect(() => {
+    run(photo);
+  }, []);
   return (
     <>
       <View style={styles.container}>
