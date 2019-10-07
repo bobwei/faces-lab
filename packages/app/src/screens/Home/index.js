@@ -6,7 +6,7 @@ import styles, { getPhotoStyle } from './styles';
 import usePhotos from './usePhotos';
 import useFaceDescriptors from './useFaceDescriptors';
 
-const Comp = ({ numColumns }) => {
+const Comp = ({ numColumns, navigation }) => {
   const [selected, setSelected] = useState(null);
   const [photos, , loadData] = usePhotos();
   useFaceDescriptors({ photos, selected });
@@ -19,7 +19,7 @@ const Comp = ({ numColumns }) => {
           getItem={getItem(numColumns)}
           numColumns={numColumns}
           contentContainerStyle={styles.photoContainer}
-          renderItem={renderItem({ setSelected, numColumns })}
+          renderItem={renderItem({ setSelected, numColumns, navigation })}
           keyExtractor={(item, i) => i}
           onEndReached={() => loadData()}
         />
@@ -53,13 +53,14 @@ function getItem(numColumns) {
   };
 }
 
-function renderItem({ setSelected, numColumns }) {
-  return ({ item, index }) => {
+function renderItem({ numColumns, navigation }) {
+  return ({ item }) => {
     return (
       <View style={styles.row}>
-        {item.map(({ source }, i) => {
+        {item.map((photo) => {
+          const { source } = photo;
           return (
-            <TouchableOpacity onPress={() => setSelected(numColumns * index + i)}>
+            <TouchableOpacity onPress={() => navigation.push('Photo', { photo })}>
               <View style={styles.photoContainer}>
                 <Image style={getPhotoStyle(numColumns)} source={source} />
               </View>
