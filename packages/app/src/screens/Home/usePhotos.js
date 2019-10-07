@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import CameraRoll from '@react-native-community/cameraroll';
 import * as R from 'ramda';
 
@@ -7,10 +7,7 @@ const transform = R.pipe(
   R.map(R.prop('node')),
   R.map(
     R.applySpec({
-      source: R.pipe(
-        R.prop('image'),
-        R.pick(['uri']),
-      ),
+      source: R.prop('image'),
     }),
   ),
 );
@@ -23,11 +20,11 @@ function usePhotos() {
     loadData();
   }, []);
 
-  function loadData(props = {first: 10, after, assetType: 'Photos'}) {
+  function loadData(props = { first: 10, after, assetType: 'Photos' }) {
     return CameraRoll.getPhotos(props)
-      .then(result => {
+      .then((result) => {
         const data = transform(result);
-        setPhotos(val => (!props.after ? data : [...val, ...data]));
+        setPhotos((val) => (!props.after ? data : [...val, ...data]));
         const endCursor = R.path(['page_info', 'end_cursor'])(result);
         setAfter(endCursor);
       })
