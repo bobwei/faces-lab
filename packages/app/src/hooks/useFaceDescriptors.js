@@ -2,10 +2,12 @@ import { useState } from 'react';
 import ImageResizer from 'react-native-image-resizer';
 import fs from 'react-native-fs';
 import axios from 'axios';
+import * as R from 'ramda';
 
 import baseUrl from '../api/config';
 
-const defaultResizeConfig = [600, 600, 'JPEG', 80];
+export const maxWidth = 600;
+const defaultResizeConfig = [maxWidth, maxWidth, 'JPEG', 80];
 
 function useFaceDescriptors() {
   const [descriptors, setDescriptors] = useState([]);
@@ -20,6 +22,7 @@ function useFaceDescriptors() {
           .post(`${baseUrl}/faces/descriptor`, { data })
           .then((res) => res.data);
       })
+      .then(R.evolve({ results: R.map(withRatio({ photo })) }))
       .then((data) => setDescriptors(data.results))
       .catch(console.log);
   }
@@ -27,3 +30,12 @@ function useFaceDescriptors() {
 }
 
 export default useFaceDescriptors;
+
+function withRatio({ photo }) {
+  return (props) => {
+    return {
+      ...props,
+      ratio: props.detection._imageDims._width / photo.source.width,
+    };
+  };
+}
