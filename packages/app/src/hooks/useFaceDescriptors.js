@@ -9,7 +9,7 @@ import * as R from 'ramda';
 import baseUrl from '../api/config';
 
 const { width: maxWidth, height: maxHeight } = Dimensions.get('screen');
-const defaultResizeConfig = [maxWidth, maxHeight, 'JPEG', 80];
+const defaultResizeConfig = [maxWidth, maxHeight, 'JPEG', 60];
 
 function useFaceDescriptors() {
   const [descriptors, setDescriptors] = useState([]);
