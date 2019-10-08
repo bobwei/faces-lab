@@ -12,9 +12,11 @@
   "dependencies": {
     "@react-native-community/cameraroll": "^1.2.1",
     "axios": "^0.19.0",
+    "query-string": "^6.8.3",
     "ramda": "^0.26.1",
     "react": "16.9.0",
     "react-native": "0.61.1",
+    "react-native-cookies": "^3.3.0",
     "react-native-fs": "^2.14.1",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-image-resizer": "^1.0.1",

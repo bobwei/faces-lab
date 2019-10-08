@@ -184,6 +184,8 @@ PODS:
   - React-jsinspector (0.61.1)
   - react-native-cameraroll (1.2.1):
     - React
+  - react-native-cookies (3.2.0):
+    - React
   - react-native-image-resizer (1.0.1):
     - React
   - react-native-webview (7.4.1):
@@ -251,6 +253,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
+  - react-native-cookies (from `../node_modules/react-native-cookies/ios`)
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -305,6 +308,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-cameraroll:
     :path: "../node_modules/@react-native-community/cameraroll"
+  react-native-cookies:
+    :path: "../node_modules/react-native-cookies/ios"
   react-native-image-resizer:
     :path: "../node_modules/react-native-image-resizer"
   react-native-webview:
@@ -357,6 +362,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: ee45274419eb95614bbbadb98e20684c5f29996e
   React-jsinspector: 574d597112f9ea3d1b717f6fb62aef764c70dd6f
   react-native-cameraroll: 9fa61cb36a9cc6d5109b591466a9f985b264c27b
+  react-native-cookies: 854d59c4135c70b92a02ca4930e68e4e2eb58150
   react-native-image-resizer: ecae22b577b0425cd7803eb8145243038dd4b6bd
   react-native-webview: 4dbc1d2a4a6b9c5e9e723c62651917aa2b5e579e
   React-RCTActionSheet: af4d951113b1e068bb30611f91b984a7a73597ff
@@ -375,6 +381,6 @@ SPEC CHECKSUMS:
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
   Yoga: d8c572ddec8d05b7dba08e4e5f1924004a177078
 
-PODFILE CHECKSUM: ff8e88e16e6de3e946302b55b4c1e7d2964fc937
+PODFILE CHECKSUM: c922490e4a10fc86200f4cf18711ed78ba38b9f0
 
 COCOAPODS: 1.7.5
