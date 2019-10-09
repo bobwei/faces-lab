@@ -2,11 +2,9 @@ import { useState } from 'react';
 import { Dimensions } from 'react-native';
 import { Header } from 'react-navigation-stack';
 import ImageResizer from 'react-native-image-resizer';
-import fs from 'react-native-fs';
-import axios from 'axios';
 import * as R from 'ramda';
 
-import baseUrl from '../api/config';
+import createFaceDescriptors from '../functions/createFaceDescriptors';
 
 const { width: maxWidth, height: maxHeight } = Dimensions.get('screen');
 const defaultResizeConfig = [maxWidth, maxHeight, 'JPEG', 60];
@@ -15,15 +13,7 @@ function useFaceDescriptors() {
   const [descriptors, setDescriptors] = useState([]);
   function run(photo) {
     return ImageResizer.createResizedImage(photo.source.uri, ...defaultResizeConfig)
-      .then(async ({ uri }) => {
-        return 'data:image/jpeg;base64,' + (await fs.readFile(uri, 'base64'));
-      })
-      .then((data) => {
-        // prettier-ignore
-        return axios
-          .post(`${baseUrl}/faces/descriptor`, { data })
-          .then((res) => res.data);
-      })
+      .then(createFaceDescriptors)
       .then(
         R.evolve({
           results: R.map(withDetection),
