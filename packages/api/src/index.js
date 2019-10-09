@@ -23,5 +23,10 @@ if (require.main === module) {
     app.listen(PORT, () => {
       console.log(`Server is running at http://localhost:${PORT}`);
     });
+    process.on('unhandledRejection', (err) => {
+      if (err.toString() === 'TypeError: media.addEventListener is not a function') {
+        // face not found or unable to load image data
+      }
+    });
   })();
 }
