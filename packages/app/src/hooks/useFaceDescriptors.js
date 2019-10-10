@@ -14,12 +14,8 @@ function useFaceDescriptors() {
   function run(photo) {
     return ImageResizer.createResizedImage(photo.source.uri, ...defaultResizeConfig)
       .then(createFaceDescriptors)
-      .then(
-        R.evolve({
-          results: R.map(withDetection),
-        }),
-      )
-      .then((data) => setDescriptors(data.results))
+      .then(R.map(withDetection))
+      .then((data) => setDescriptors(data))
       .catch(console.log);
   }
   return [descriptors, run];

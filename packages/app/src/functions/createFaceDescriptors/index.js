@@ -9,7 +9,7 @@ const fn = async ({ uri }) => {
   // prettier-ignore
   return axios
     .post(`${baseUrl}/faces/descriptor`, { data })
-    .then((res) => res.data);
+    .then((res) => res.data.results);
 };
 
 export default fn;
