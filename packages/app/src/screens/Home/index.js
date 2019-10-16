@@ -7,10 +7,12 @@ import logout from '@bobwei/instagram-api/lib/apis/logout';
 
 import styles, { getPhotoStyle } from './styles';
 import usePhotos from './usePhotos';
+import createFaceIndexes from '../../functions/createFaceIndexes';
 
-const Comp = ({ numColumns, navigation }) => {
+const Comp = (props) => {
+  const { numColumns, navigation } = props;
   const [photos, , loadData] = usePhotos();
-  setupListeners({ navigation });
+  setupListeners(props);
   return (
     <>
       <View style={styles.container}>
@@ -21,7 +23,7 @@ const Comp = ({ numColumns, navigation }) => {
           numColumns={numColumns}
           contentContainerStyle={styles.photoContainer}
           renderItem={renderItem({ numColumns, navigation })}
-          keyExtractor={(item, i) => i}
+          keyExtractor={(item, i) => i + ''}
           onEndReached={() => loadData()}
         />
       </View>
@@ -46,7 +48,7 @@ Comp.navigationOptions = ({ navigation, isAuthenticated }) => {
 
 export default withMappedNavigationParams()(Comp);
 
-function setupListeners({ navigation }) {
+function setupListeners({ navigation, isAuthenticated }) {
   useEffect(() => {
     const listener = navigation.addListener('didFocus', () => {
       isLogin().then((val) => navigation.setParams({ isAuthenticated: val }));
@@ -55,6 +57,11 @@ function setupListeners({ navigation }) {
       listener.remove();
     };
   }, []);
+  useEffect(() => {
+    if (isAuthenticated) {
+      createFaceIndexes();
+    }
+  }, [isAuthenticated]);
 }
 
 function getItem(numColumns) {
@@ -70,7 +77,7 @@ function renderItem({ numColumns, navigation }) {
         {item.map((photo) => {
           const { source } = photo;
           return (
-            <TouchableOpacity onPress={() => navigation.push('Photo', { photo })}>
+            <TouchableOpacity onPress={() => navigation.push('Photo', { photo })} key={source.uri}>
               <View style={styles.photoContainer}>
                 <Image style={getPhotoStyle(numColumns)} source={source} />
               </View>
