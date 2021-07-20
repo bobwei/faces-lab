@@ -18,7 +18,7 @@
     "query-string": "^6.8.3",
     "ramda": "^0.26.1",
     "react": "16.9.0",
-    "react-native": "0.61.1",
+    "react-native": "0.62.3",
     "react-native-cookies": "^3.3.0",
     "react-native-fs": "^2.14.1",
     "react-native-gesture-handler": "^1.4.1",
